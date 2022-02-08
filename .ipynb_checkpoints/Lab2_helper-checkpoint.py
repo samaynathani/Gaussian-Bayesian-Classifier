@@ -81,7 +81,7 @@ def exercise_6(Xtrain,ytrain,Xtest,ytest):
     for idx in range(len(Xtest)):
         posterior = posteriors(probs, priors, Xtest.iloc[idx])
         k = max(posterior, key=posterior.get)
-        pred = int(k.split("|")[0][-1])
+        pred = round(float((k.split("|")[0]).split("=")[-1]))
         ypred.append(pred)
     ypred = np.array(ypred)
     correct = np.sum(ypred == ytest.to_numpy())
