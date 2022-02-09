@@ -88,27 +88,29 @@ def exercise_6(Xtrain,ytrain,Xtest,ytest):
     accuracy = correct / len(ytest)
     return accuracy
 
-def exercise_7(Xtrain,ytrain,Xtest,ytest, npermutations = 10):
+def test_based_feature_importance(Xtrain,ytrain,Xtest,ytest, npermutations = 10):
     # initialize what we are going to return
     importances = {}
     for col in Xtrain.columns:
         importances[col] = 0
     # find the original accuracy
     orig_accuracy = exercise_6(Xtrain,ytrain,Xtest,ytest)
+    print(orig_accuracy)
     # now carray out the feature importance work
     for col in Xtrain.columns:
         for perm in range(npermutations):
             Xtest2 = Xtest.copy()
             Xtest2[col] = Xtest[col].sample(frac=1, replace=False).values
             new_accuracy = exercise_6(Xtrain, ytrain, Xtest2, ytest)
-            feature_importance = orig_accuracy - new_accuracy
             print(new_accuracy)
+            feature_importance = orig_accuracy - new_accuracy
+            print(feature_importance)
             importances[col] += feature_importance
             
         importances[col] = importances[col]/npermutations
     return importances
 
-def exercise_8(Xtrain,ytrain,Xtest,ytest, npermutations = 20):
+def train_based_feature_importance(Xtrain,ytrain,Xtest,ytest, npermutations = 20):
     # initialize what we are going to return
     importances = {}
     for col in Xtrain.columns:
